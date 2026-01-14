@@ -1,0 +1,14 @@
+{
+  "name": "jetson-stt-container",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "runArgs": ["--device=/dev/snd"],
+  "postCreateCommand": "cargo --version",
+  "customizations": {
+    "zed": {
+      "extensions": []
+    }
+  }
+}
