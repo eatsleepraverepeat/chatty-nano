@@ -1,4 +1,4 @@
-# <p style="text-align: center;">ChattyNano</p>
+<p style="text-align: center;"># ChattyNano</p>
 
 Bringing Speech Recognition (STT) and Text Generation (LLM) pipeline to old [NVIDIA Jetson Nano](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) from 2019 with $${\color{purple}vibes}$$. 
 
