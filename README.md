@@ -111,7 +111,7 @@ docker run -it \
         --port 8000'
 ```
 
-The above will start an outdated version of `llama.cpp` OpenAI compatible server running on `8000`, accelerated by Tegra X1 available on the board. `tinyllama-1.1b-chat` will be something around 10TPS.
+The above will start an outdated version of `llama.cpp` OpenAI compatible server running on `8000`, accelerated by Tegra X1 available on the board. `tinyllama-1.1b-chat` will be something around 5TPS.
 **All the credit goes to [Running llama.cpp on the Jetson Nano](https://www.caplaz.com/jetson-nano-running-llama-cpp/)**
 
 ### Setup on the photo
