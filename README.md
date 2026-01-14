@@ -2,9 +2,11 @@
 
 # ChattyNano
 
+### Back to Maxwell
+
 </div>
 
-Bringing Speech Recognition (STT) and Text Generation (LLM) pipeline to old [NVIDIA Jetson Nano](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) from 2019 with $${\color{purple}vibes}$$. 
+Bringing Speech Recognition (STT) and Text Generation (LLM) pipeline to old [NVIDIA Jetson Nano](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) from 2019 with $${\color{purple}vibes}$$.
 
 Might be the perfect project if you somehow forgot about owning a Jetson Nano board and want to make it busy doing stuff. **For fun only**, most of the technologies used are **deprecated**, **outdated** or **superseded** in one way or another. You've been warned.
 
