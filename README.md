@@ -48,6 +48,36 @@ The meaning of life is an enduring and complex question that has fascinated huma
 <...>
 ```
 
+The following arguments accepted for configuration,
+
+```bash
+Speech-to-Text application using Coqui STT
+
+Usage: jetson-stt [OPTIONS] --model-dir <MODEL_DIR>
+
+Options:
+  -m, --model-dir <MODEL_DIR>
+          Model directory containing the model files
+      --chunk-seconds <CHUNK_SECONDS>
+          The length in seconds to wait for audio recording to transcribe [default: 10]
+      --input-device <INPUT_DEVICE>
+          The input device used to record audio [default: plughw:CARD=Device,DEV=0]
+      --num-channels <NUM_CHANNELS>
+          The number of channels of the recorded audio [default: 1]
+      --sample-rate <SAMPLE_RATE>
+          The sample rate of the recorded audio [default: 16000]
+      --openai-endpoint <OPENAI_ENDPOINT>
+          OpenAI API endpoint (default: https://api.openai.com/v1) [default: https://api.openai.com/v1]
+      --openai-model <OPENAI_MODEL>
+          OpenAI model name (e.g., gpt-4, gpt-3.5-turbo) [default: gpt-3.5-turbo]
+      --openai-api-key <OPENAI_API_KEY>
+          OpenAI API key (optional, can be set via OPENAI_API_KEY env var)
+  -h, --help
+          Print help
+  -V, --version
+          Print version
+```
+
 ## STT
 Coqui STT running on CPU is used.
 _You can consider this a tribute to the great work and reflect a little on how far things have come in just 6 years._
