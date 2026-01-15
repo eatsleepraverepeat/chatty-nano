@@ -125,4 +125,4 @@ The above will start an outdated version of `llama.cpp` OpenAI compatible server
 - Jetson Nano 4GB, rev A02
 - [Waveshare Jetson Nano Case](https://www.waveshare.com/wiki/Jetson_Nano_Case_(C))
 - [Waveshare Audio Card for Jetson Nano](https://www.waveshare.com/wiki/Audio_Card_for_Jetson_Nano)
-- And the prompt `Make it Ghibli style, keep the macro and overall aesthetics` :rage1:
+- And edit reference pic of the setup with the prompt of `Make it Ghibli style, keep the macro and overall aesthetics` :rage1:
