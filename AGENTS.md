@@ -10,6 +10,16 @@ All commit messages must follow this pattern:
 UPD|ADD|DEL: <short message describing changes>
 ```
 
+## Co-Authoring
+
+When commits are made by zed-agent, include the following co-author trailer in the commit message:
+
+```
+Co-authored-by: zed <253101093+zed-agent@users.noreply.github.com>
+```
+
+This ensures proper attribution on GitHub when multiple contributors work on a commit.
+
 ## Commit Types
 
 ### UPD (Update)
