@@ -8,7 +8,7 @@
 
 </div>
 
-Bringing Speech Recognition (STT) and Text Generation (LLM) pipeline to old [NVIDIA Jetson Nano](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) from 2019 with $${\color{purple}vibes}$$.
+Bringing **on-device** Speech Recognition (STT) and Text Generation (LLM) pipeline to an old [NVIDIA Jetson Nano](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) from 2019 with $${\color{purple}vibes}$$.
 
 Might be the perfect project if you somehow forgot about owning a Jetson Nano board and want to make it busy doing stuff. **For fun only**, most of the technologies used are **deprecated**, **outdated** or **superseded** in one way or another. You've been warned.
 
@@ -52,7 +52,7 @@ The meaning of life is an enduring and complex question that has fascinated huma
 <...>
 ```
 
-The following arguments accepted for configuration,
+The following arguments are accepted for configuration:
 
 ```bash
 Speech-to-Text application using Coqui STT
@@ -116,7 +116,13 @@ docker run -it \
 The above will start an outdated version of `llama.cpp` OpenAI compatible server running on `8000`, accelerated by Tegra X1 available on the board. `tinyllama-1.1b-chat` will be something around 5TPS.
 **All the credit goes to [Running llama.cpp on the Jetson Nano](https://www.caplaz.com/jetson-nano-running-llama-cpp/)**
 
+### Future ideas
+* [] Bring [TTS](https://github.com/coqui-ai/TTS)
+* [] Attach [HomeAssistant MCP](https://www.home-assistant.io/integrations/mcp_server/) to LLM and smart-home enable the board
+* [] Try bringing [YoloE](https://docs.ultralytics.com/models/yoloe/) via STT promptable segmentation
+
 ### Setup on the photo
 - Jetson Nano 4GB, rev A02
 - [Waveshare Jetson Nano Case](https://www.waveshare.com/wiki/Jetson_Nano_Case_(C))
 - [Waveshare Audio Card for Jetson Nano](https://www.waveshare.com/wiki/Audio_Card_for_Jetson_Nano)
+- And the prompt `Make it Ghibli style, keep the macro and overall aesthetics` :rage1:
