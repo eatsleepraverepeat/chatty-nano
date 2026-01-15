@@ -119,7 +119,7 @@ The above will start an outdated version of `llama.cpp` OpenAI compatible server
 ### Future ideas
 * [ ] Bring [TTS](https://github.com/coqui-ai/TTS)
 * [ ] Attach [HomeAssistant MCP](https://www.home-assistant.io/integrations/mcp_server/) to LLM and smart-home enable the board
-* [ ] Try bringing [YoloE](https://docs.ultralytics.com/models/yoloe/) via STT promptable segmentation
+* [ ] Try bringing [YoloE](https://docs.ultralytics.com/models/yoloe/) and via STT promptable segmentation
 
 ### Setup on the photo
 - Jetson Nano 4GB, rev A02
