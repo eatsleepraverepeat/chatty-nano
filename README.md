@@ -4,6 +4,8 @@
 
 ### Back to [Maxwell](https://developer.nvidia.com/maxwell-compute-architecture)
 
+<img src="assets/jetson-waveshare-kit.jpg" width="768" height="512">
+
 </div>
 
 Bringing Speech Recognition (STT) and Text Generation (LLM) pipeline to old [NVIDIA Jetson Nano](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) from 2019 with $${\color{purple}vibes}$$.
