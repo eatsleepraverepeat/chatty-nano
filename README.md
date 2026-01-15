@@ -4,7 +4,7 @@
 
 ### Back to [Maxwell](https://developer.nvidia.com/maxwell-compute-architecture)
 
-<img src="assets/jetson-waveshare-kit.jpg" width="768" height="512">
+<img src="assets/jetson-waveshare-kit.jpg" width="1152" height="1024">
 
 </div>
 
