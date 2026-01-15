@@ -2,13 +2,14 @@
   "name": "jetson-stt-container",
   "build": {
     "dockerfile": "../Dockerfile",
-    "context": ".."
+    "context": "..",
   },
-  "runArgs": ["--device=/dev/snd"],
-  "postCreateCommand": "cargo --version",
+  "overrideCommand": true,
   "customizations": {
     "zed": {
-      "extensions": []
-    }
-  }
+      "extensions": [],
+    },
+  },
+  "postCreateCommand": "cargo --version",
+  "remoteUser": "root",
 }
