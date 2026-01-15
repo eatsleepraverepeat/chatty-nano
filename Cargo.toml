@@ -1,0 +1,15 @@
+[package]
+name = "jetson-stt"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+coqui-stt = { git = "https://github.com/tazz4843/coqui-stt", branch = "master" }
+audrey = "0.3"
+dasp_signal = "0.11"
+dasp_interpolate = { version = "0.11", features = ["linear"] }
+cpal = "0.15"
+clap = { version = "4.5", features = ["derive"] }
+async-openai = { version = "0.32", features = ["chat-completion"] }
+tokio = { version = "1.0", features = ["rt-multi-thread", "macros"] }
+futures = "0.3"
