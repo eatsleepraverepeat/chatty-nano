@@ -21,7 +21,7 @@ RUN apt-get -y install libportaudio2 libasound2-dev
 ENV PA_ALSA_PLUGHW=1
 
 # Copy project files
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml ./
 COPY src ./src
 
 # Build the project
