@@ -10,7 +10,7 @@
 
 Bringing **on-device** Speech Recognition (STT) and Text Generation (LLM) pipeline to an old [NVIDIA Jetson Nano](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) from 2019 with $${\color{purple}vibes}$$.
 
-Might be the perfect project if you somehow forgot about owning a Jetson Nano board and want to make it busy doing stuff. **For fun only**, most of the technologies used are **deprecated**, **outdated** or **superseded** in one way or another. You've been warned.
+This might be the perfect project if you somehow forgot about owning a Jetson Nano board and want to make it busy doing stuff. **For fun only**—the board is old, so most of the technologies used are **deprecated**, **outdated**, or **superseded** in one way or another, but it's still insanely cool.
 
 **This project was heavily inspired by [whisper-edge](https://github.com/maxbbraun/whisper-edge)**
 
