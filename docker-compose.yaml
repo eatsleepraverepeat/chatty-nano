@@ -1,4 +1,4 @@
-version: '3'
+version: "2.1"
 services:
   homeassistant:
     container_name: homeassistant
@@ -6,11 +6,20 @@ services:
     volumes:
       - ~/home_assistant_config:/config
       - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
     restart: unless-stopped
     privileged: true
     network_mode: host
     environment:
-      DISABLE_JEMALLOC: 'true'
+      DISABLE_JEMALLOC: "true"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8123/"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      matter-server:
+        condition: service_healthy
   matter-server:
     image: ghcr.io/matter-js/python-matter-server:stable
     container_name: matter-server
@@ -23,3 +32,29 @@ services:
       - ~/matter-server/data:/data/
       # Required for Bluetooth via D-Bus
       - /run/dbus:/run/dbus:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5580/"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+  ha-mcp-server:
+    image: itsmrshow/home-assistant-mcp-server:latest
+    container_name: homeassistant-mcp-server
+    ports:
+      - "8099:8099"
+    volumes:
+      - ./config:/config:rw
+    environment:
+      - HA_URL=http://localhost:8123
+      - HA_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4YmFhOGI4MDY4MDc0ZjYxOTEzY2FiZjAyODM0MTQ1YSIsImlhdCI6MTc2OTI3MDg3MywiZXhwIjoyMDg0NjMwODczfQ.DBMjXLgttC27oW-JNQEwXeRJnaG9L8rUwCVxx6arqU4
+      - HA_AGENT_KEY=brownfoxoverlazydog
+      - ENABLE_GIT=false
+      - AUTO_BACKUP=false
+      - PORT=8099
+      - LOG_LEVEL=info
+      - MCP_SERVER_URL=http://192.168.1.46:8099
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      homeassistant:
+        condition: service_healthy
