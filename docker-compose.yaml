@@ -46,8 +46,8 @@ services:
       - ./config:/config:rw
     environment:
       - HA_URL=http://localhost:8123
-      - HA_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4YmFhOGI4MDY4MDc0ZjYxOTEzY2FiZjAyODM0MTQ1YSIsImlhdCI6MTc2OTI3MDg3MywiZXhwIjoyMDg0NjMwODczfQ.DBMjXLgttC27oW-JNQEwXeRJnaG9L8rUwCVxx6arqU4
-      - HA_AGENT_KEY=brownfoxoverlazydog
+      - HA_TOKEN=${HA_TOKEN}
+      - HA_AGENT_KEY=${HA_AGENT_KEY}
       - ENABLE_GIT=false
       - AUTO_BACKUP=false
       - PORT=8099
