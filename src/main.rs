@@ -48,7 +48,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::parse();
 
     // Locate the model and optional scorer files
-    let (model_path, scorer_path) = find_model_files(&args.model_dir);
+    let (model_path, scorer_path) = find_model_files(&args.model_dir)?;
 
     // Initialize the STT model
     let mut model = Model::new(model_path.to_str().expect("invalid utf-8 found in path"))?;
@@ -74,7 +74,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("\nTranscription (took {:?}):\n{}", duration, transcription);
 
     // Send transcription to the LLM and stream the response
-    if !transcription.is_empty() {
+    if transcription.is_empty() {
+        println!("No speech detected, skipping AI response.");
+    } else {
         ai::get_ai_response(
             args.openai_api_key.as_deref(),
             &args.openai_endpoint,
@@ -88,24 +90,25 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 /// Locate the model (.pb, .pbmm, or .tflite) and optional scorer (.scorer) files.
-fn find_model_files(dir: &str) -> (PathBuf, Option<PathBuf>) {
+fn find_model_files(dir: &str) -> Result<(PathBuf, Option<PathBuf>), Box<dyn std::error::Error>> {
     let mut model = None;
     let mut scorer = None;
 
-    if let Ok(entries) = std::fs::read_dir(dir) {
-        for entry in entries.flatten() {
-            let path = entry.path();
-            if !path.is_file() {
-                continue;
-            }
-            match path.extension().and_then(|e| e.to_str()) {
-                Some("pb") | Some("pbmm") | Some("tflite") => model = Some(path),
-                Some("scorer") => scorer = Some(path),
-                _ => {}
-            }
+    let entries = std::fs::read_dir(dir)?;
+    for entry in entries.flatten() {
+        let path = entry.path();
+        if !path.is_file() {
+            continue;
+        }
+        match path.extension().and_then(|e| e.to_str()) {
+            Some("pb") | Some("pbmm") | Some("tflite") => model = Some(path),
+            Some("scorer") => scorer = Some(path),
+            _ => {}
         }
     }
 
-    let model = model.expect("No model file found (.pb, .pbmm, or .tflite)");
-    (model, scorer)
+    let model = model.ok_or_else(|| {
+        format!("No model file found in `{dir}` (expected .pb, .pbmm, or .tflite)")
+    })?;
+    Ok((model, scorer))
 }
