@@ -41,6 +41,10 @@ struct Args {
     /// OpenAI API key (optional, can be set via OPENAI_API_KEY env var)
     #[arg(long)]
     openai_api_key: Option<String>,
+
+    /// Optional path to save the transcription to a text file
+    #[arg(long)]
+    save_transcription: Option<PathBuf>,
 }
 
 #[tokio::main]
@@ -72,6 +76,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let transcription = model.speech_to_text(&audio_data)?;
     let duration = start.elapsed();
     println!("\nTranscription (took {:?}):\n{}", duration, transcription);
+
+    // Optionally save the transcription to a file
+    if let Some(path) = &args.save_transcription {
+        std::fs::write(path, transcription.as_bytes())?;
+        println!("Transcription saved to `{}`", path.display());
+    }
 
     // Send transcription to the LLM and stream the response
     if !transcription.is_empty() {
