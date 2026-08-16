@@ -41,6 +41,10 @@ struct Args {
     /// OpenAI API key (optional, can be set via OPENAI_API_KEY env var)
     #[arg(long)]
     openai_api_key: Option<String>,
+
+    /// Skip sending the transcription to the LLM (transcription-only mode)
+    #[arg(long)]
+    transcribe_only: bool,
 }
 
 #[tokio::main]
@@ -74,7 +78,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("\nTranscription (took {:?}):\n{}", duration, transcription);
 
     // Send transcription to the LLM and stream the response
-    if !transcription.is_empty() {
+    if !args.transcribe_only && !transcription.is_empty() {
         ai::get_ai_response(
             args.openai_api_key.as_deref(),
             &args.openai_endpoint,
