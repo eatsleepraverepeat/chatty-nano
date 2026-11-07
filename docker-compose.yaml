@@ -1,0 +1,62 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:2026.11.0@sha256:c6c1ca9931036bf3a2c4cc088d8db25dfea3b33935a5ecc83c40349462e2f69e
+    volumes:
+      - ${HA_CONFIG_DIR:-~/home_assistant_config}:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    environment:
+      DISABLE_JEMALLOC: "true"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8123/"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    depends_on:
+      matter-server:
+        condition: service_healthy
+
+  matter-server:
+    image: ghcr.io/matter-js/matterjs-server:1.5.5@sha256:ee149c7c67eff0e90f131e8f0d628f7b099591ec58473c8cda1209e8ae4df66e
+    container_name: matter-server
+    restart: unless-stopped
+    read_only: true
+    network_mode: host
+    environment:
+      LISTEN_ADDRESS: 127.0.0.1
+      NOBLE_BINDINGS: dbus
+    volumes:
+      - ${MATTER_DATA_DIR:-~/.matterjs-server}:/data
+      - /run/dbus:/run/dbus:ro
+
+  ha-mcp-server:
+    image: itsmrshow/home-assistant-mcp-server:main@sha256:756a07213ab490c718a738c147cb0cb160c177c3b14d1e1a968b443b2ccfbf49
+    container_name: homeassistant-mcp-server
+    volumes:
+      # Share the real configuration so MCP file operations affect Home Assistant.
+      - ${HA_CONFIG_DIR:-~/home_assistant_config}:/config:rw
+    environment:
+      HA_URL: http://localhost:8123
+      HA_TOKEN: ${HA_TOKEN:?Set HA_TOKEN in .env}
+      HA_AGENT_KEY: ${HA_AGENT_KEY:-}
+      ENABLE_GIT: "false"
+      AUTO_BACKUP: "false"
+      PORT: 8099
+      LOG_LEVEL: info
+      MCP_SERVER_URL: ${MCP_SERVER_URL:-http://localhost:8099}
+    restart: unless-stopped
+    network_mode: host
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8099/api/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      homeassistant:
+        condition: service_healthy

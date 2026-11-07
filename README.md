@@ -116,6 +116,43 @@ docker run -it \
 The above will start an outdated version of `llama.cpp` OpenAI compatible server running on `8000`, accelerated by Tegra X1 available on the board. `tinyllama-1.1b-chat` will be something around 5TPS.
 **All the credit goes to [Running llama.cpp on the Jetson Nano](https://www.caplaz.com/jetson-nano-running-llama-cpp/)**
 
+## Home Assistant and MCP
+
+`docker-compose.yaml` runs Home Assistant, the supported Matter.js Server, and a third-party Home Assistant MCP server. It provides the MCP endpoint; connecting an LLM or MCP client is a separate step. The pinned images support `linux/arm64` and `linux/amd64`.
+
+> [!WARNING]
+> Matter Server requires a recent 64-bit Linux host with IPv6 and correctly configured multicast networking. The JetPack 4.6.1 environment above is not a validated Matter host. Host networking bypasses Docker port isolation, and the MCP server has a Home Assistant token plus read/write access to its configuration. Run this stack only on a trusted network and protect port `8099`.
+
+1. Create your local configuration and data directories:
+
+   ```bash
+   cp .env.example .env
+   mkdir -p ~/home_assistant_config ~/.matterjs-server
+   sudo chown -R 1000:1000 ~/.matterjs-server
+   ```
+
+2. For a new Home Assistant installation, start only Home Assistant and its Matter dependency, then complete onboarding at `http://<host-ip>:8123`:
+
+   ```bash
+   docker compose up -d homeassistant
+   ```
+
+   The placeholder token in `.env` is not used because this command does not start the MCP service. Create a **new** long-lived access token from your Home Assistant profile. If a token was previously committed or shared, revoke it rather than reusing it here.
+3. Edit `.env` and replace the placeholder `HA_TOKEN`. Optionally set a strong `HA_AGENT_KEY`; leaving it blank lets the MCP server generate one. For remote MCP clients, change `MCP_SERVER_URL` to this host's reachable address, for example `http://192.168.1.100:8099`.
+4. Start and check the full stack:
+
+   ```bash
+   docker compose up -d
+   docker compose ps
+   docker compose logs -f
+   ```
+
+Home Assistant listens on port `8123`, Matter Server on `5580`, and MCP on `8099`. The MCP health endpoint is `http://localhost:8099/api/health`. MCP client configuration is generated in the Home Assistant configuration directory. When configuring the Matter integration manually, use `ws://localhost:5580/ws`; all three containers share the host network.
+
+To enable Bluetooth commissioning on a host with BlueZ and adapter `hci0`, add `BLUETOOTH_ADAPTER: "0"` to the `matter-server` environment. The supplied `NOBLE_BINDINGS=dbus` setting keeps the container unprivileged. Matter networking and Thread requirements are documented in the [Matter.js Server deployment guide](https://github.com/matter-js/matterjs-server/blob/main/docs/docker.md).
+
+For an existing Python Matter Server installation, stop the old container and back up its data before using the same directory. The new server migrates it once and needs UID/GID `1000` write access. Never run both servers against the same data. See the [migration guide](https://github.com/matter-js/matterjs-server/blob/main/docs/migration.md).
+
 ### Future ideas
 * [ ] Bring [TTS](https://github.com/coqui-ai/TTS)
 * [ ] Attach [HomeAssistant MCP](https://www.home-assistant.io/integrations/mcp_server/) to LLM and smart-home enable the board
